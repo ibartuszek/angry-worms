@@ -1,5 +1,9 @@
 package hu.elte.angryworms;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import processing.core.PApplet;
 
 /**
@@ -8,7 +12,17 @@ import processing.core.PApplet;
 public class Visualization extends PApplet {
 
     public static void main(String[] args) {
-        PApplet.main("hu.elte.angryworms.Visualization");
+        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String appConfigPath = rootPath + "app.properties";
+        Properties appProps = new Properties();
+        try {
+            appProps.load(new FileInputStream(appConfigPath));
+            String backgroundColor = appProps.getProperty("background-color");
+            // System.out.println("background color: " + backgroundColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // PApplet.main("hu.elte.angryworms.Visualization");
     }
 
     @Override

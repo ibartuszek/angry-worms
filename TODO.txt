@@ -1,0 +1,38 @@
+2D Játék - Angry Worms
+
+TODO:
+
+Alapfeladat (Σ 17%)
+Az alkalmazás háttere legyen égszínkék (2%).
+A játék két emberi játékossal játszható. (5%)
+A játékmenet legyen körökre osztott, ahol egy-egy lövés után az ellenfél következik. A cél egymás “Hajítógépének” eltalálása. (5%)
+Ha ez bekövetkezik, a lövedéket hajító játékos nyer, ezt pedig szövegesen közli a program, majd bezárja magát 5 másodperc múlva (5%).
+Minden játékosnak külön-külön 3 lövedéke van. Ha találat nélkül ér véget a játék, ezt írja ki a program! (3%)
+
+
+Lövedékek (Σ 15%)
+Formájukban emlékeztessenek valamilyen színes “kukac” formára (5%).
+Röppályájuk parabolikus legyen! (5%)
+A lövedék repülés közben forogjon! (5%)
+
+Hajítógép (Σ 15%)
+Emlékeztessen egy csúzli formára és a pálya szélétől 200 px-re legyen! (5%)
+A lövedék a csúzliban helyezkedjen el, célzáskor pedig animáltan mozogjon együtt vele! (5%)
+A csúzli gumija legyen piros! (5%)
+A célzás egérrel történjen: egy nyíl jelezze, hogy milyen irányban fog repülni a lövedék! (5%)
+A célzás elindításához a hajítógépre kell kattintani, majd egy bizonyos távolságra húzni a lövedéket. Az egérgombot felengedve a lövedék elrepül. A lövedék kezdősebességét a egér-húzás mértéke befolyásolja. (5%)
+
+Pálya (Σ 40%)
+Két 2D rétegből álljon: távoli dombok (5%), talaj (5%)
+A pálya mindig csak egy adott része látszódjon! (5%)
+A távoli dombok 2000 pixel széles textúra legyen, magassága a képernyőjével azonos. (5%)
+A talaj a képernyő alsó 1/3-ig tartson és legyen 2500 pixel széles. A csúzlik alapja a talajban legyen. (5%)
+A pályát a nyíl billentyűk segítségével lehessen követni, ekkor a rétegek pedig egymás előtt folyamatosan csúszva mozogjanak. (A “szélesebb” rétegnek gyorsabb mozgás kell, hogy azonos idő alatt jussunk el a széléig, mint a “keskenynek”.) (5%)
+Ha a talajt éri a lövedék, a talaj változzon meg! (10%)
+
+Pluszpontok / Extra(Σ 35%)
+Becsapódás után a lövedék visszapattan még egyszer, újra parabolikus pályán. (15%)
+A pályán dobozok helyezkednek el véletlenül, melyet eltalálva a következő körből kimarad az ellenfél. (5%)
+Hatékony pálya-megjelenítéshez és módosításhoz (lövedék-becsapódások helye) használj Quadtree-t! (15%)
+
+DONE:
