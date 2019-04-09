@@ -1,9 +1,8 @@
 package hu.elte.angryworms;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.awt.Color;
 
+import hu.elte.angryworms.shapes.ground.Ground;
 import processing.core.PApplet;
 
 /**
@@ -11,32 +10,58 @@ import processing.core.PApplet;
  */
 public class Visualization extends PApplet {
 
+    public static final String BACKGROUND_COLOR = "#007fff";
+    public static final String GROUND_COLOR = "#f4a460";
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = 480;
+    public static final int DETAIL = 100;
+
+    private GameModel model;
+
+    public Visualization() {
+        super();
+    }
+
     public static void main(String[] args) {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String appConfigPath = rootPath + "app.properties";
-        Properties appProps = new Properties();
-        try {
-            appProps.load(new FileInputStream(appConfigPath));
-            String backgroundColor = appProps.getProperty("background-color");
-            // System.out.println("background color: " + backgroundColor);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // PApplet.main("hu.elte.angryworms.Visualization");
-    }
-
-    @Override
-    public void settings() {
-        size(640, 480);
-    }
-
-    @Override
-    public void setup() {
-        fill(120,50,240);
+        Visualization mainClass = new Visualization();
+        mainClass.main("hu.elte.angryworms.Visualization");
     }
 
     @Override
     public void draw(){
-        ellipse(width/2,height/2,second(),second());
+        update();
+        this.fill(0, 0, 0);
+        this.stroke(0, 0, 0);
+        this.ellipse(width/2,height/2,second(),second());
     }
+
+    public void update() {
+        model.draw();
+    }
+
+    // Init + Setup
+
+    @Override
+    public void settings() {
+        size(WIDTH, HEIGHT);
+    }
+
+    @Override
+    public void setup() {
+        init();
+    }
+
+    public void init() {
+        Color backgroundColor = Color.decode(BACKGROUND_COLOR);
+        background(color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue()));
+        initGround();
+    }
+
+    private void initGround() {
+        model = new GameModel(this);
+        // Ground ground = new Ground(WIDTH, HEIGHT, DETAIL, Color.decode(GROUND_COLOR));
+        Ground ground = new Ground(this);
+        model.setGround(ground);
+    }
+
 }
