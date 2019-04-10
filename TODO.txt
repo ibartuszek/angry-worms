@@ -3,7 +3,6 @@
 TODO:
 
 Alapfeladat (Σ 17%)
-Az alkalmazás háttere legyen égszínkék (2%).
 A játék két emberi játékossal játszható. (5%)
 A játékmenet legyen körökre osztott, ahol egy-egy lövés után az ellenfél következik. A cél egymás “Hajítógépének” eltalálása. (5%)
 Ha ez bekövetkezik, a lövedéket hajító játékos nyer, ezt pedig szövegesen közli a program, majd bezárja magát 5 másodperc múlva (5%).
@@ -36,3 +35,6 @@ A pályán dobozok helyezkednek el véletlenül, melyet eltalálva a következő
 Hatékony pálya-megjelenítéshez és módosításhoz (lövedék-becsapódások helye) használj Quadtree-t! (15%)
 
 DONE:
+
+Alapfeladat (Σ 17%)
+Az alkalmazás háttere legyen égszínkék (2%).

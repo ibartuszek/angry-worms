@@ -2,19 +2,30 @@ package hu.elte.angryworms;
 
 import java.awt.Color;
 
-import hu.elte.angryworms.shapes.ground.Ground;
+import hu.elte.angryworms.components.catapult.Catapult;
+import hu.elte.angryworms.components.ground.Ground;
+import hu.elte.angryworms.model.GameModel;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * The purpose of this type is to
  */
 public class Visualization extends PApplet {
 
-    public static final String BACKGROUND_COLOR = "#007fff";
+    public static final String BACKGROUND_COLOR = "#00baff";
     public static final String GROUND_COLOR = "#f4a460";
+    public static final String CATAPULT_BODY_COLOR = "#783e10";
+    public static final String CATAPULT_RUBBER_COLOR = "#be2409";
+
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480;
     public static final int DETAIL = 100;
+    public static final double SURFACE_RATIO = 2.0d / 3.0d;
+
+    public static final int CATAPULT_WIDTH = 10;
+    public static final int CATAPULT_HEIGHT = 50;
+    public static final int CATAPULT_HORIZONTAL_POSITION = 40;
 
     private GameModel model;
 
@@ -54,14 +65,20 @@ public class Visualization extends PApplet {
     public void init() {
         Color backgroundColor = Color.decode(BACKGROUND_COLOR);
         background(color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue()));
-        initGround();
+        initModel();
     }
 
-    private void initGround() {
+    private void initModel() {
+        System.out.println(SURFACE_RATIO);
+        System.out.println((int)(HEIGHT * SURFACE_RATIO));
         model = new GameModel(this);
-        // Ground ground = new Ground(WIDTH, HEIGHT, DETAIL, Color.decode(GROUND_COLOR));
         Ground ground = new Ground(this);
+        int surfacePosition = (int)(HEIGHT * SURFACE_RATIO) - CATAPULT_HEIGHT;
+        Catapult firstCatapult = new Catapult(this, new PVector(CATAPULT_HORIZONTAL_POSITION, surfacePosition));
+        Catapult secondCatapult = new Catapult(this, new PVector(WIDTH - CATAPULT_HORIZONTAL_POSITION, surfacePosition));
         model.setGround(ground);
+        model.setFirstCatapult(firstCatapult);
+        model.setSecondCatapult(secondCatapult);
     }
 
 }

@@ -1,8 +1,9 @@
-package hu.elte.angryworms.shapes.ground;
+package hu.elte.angryworms.components.ground;
 
 
 import java.awt.Color;
 
+import hu.elte.angryworms.Visualization;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
@@ -15,26 +16,16 @@ public class GroundNode implements Comparable<GroundNode> {
     private final int width;
     private final int height;
 
-    public GroundNode(PApplet pApplet, Color color, PVector position, int width) {
+    public GroundNode(PApplet pApplet, PVector position, int width) {
         this.pApplet = pApplet;
         this.shape = pApplet.createShape();
-        this.color = color;
+        this.color = Color.decode(Visualization.GROUND_COLOR);
         this.position = position;
         this.width = width;
         this.height = width;
     }
 
     public void draw() {
-
-        /*
-        shape.beginShape();
-        shape.vertex(position.x-width/2, position.y+height/2);
-        shape.vertex(position.x+width/2, position.y+height/2);
-        shape.vertex(position.x+width/2, position.y-height/2);
-        shape.vertex(position.x-width/2, position.y-height/2);
-        shape.endShape(shape.CLOSE);
-         */
-
         pApplet.beginShape();
         pApplet.fill(color.getRed(), color.getGreen(), color.getBlue());
         pApplet.stroke(color.getRed(), color.getGreen(), color.getBlue());
@@ -62,7 +53,5 @@ public class GroundNode implements Comparable<GroundNode> {
 
         return result;
     }
-
-    // TODO
 
 }
