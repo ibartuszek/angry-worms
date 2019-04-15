@@ -21,13 +21,23 @@ public class GameModel {
         }
 
         if (firstCatapult != null) {
-            firstCatapult.draw();
+            firstCatapult.drawBackSide();
         }
 
         if (secondCatapult != null) {
-            secondCatapult.draw();
+            secondCatapult.drawBackSide();
+        }
+
+        if (firstCatapult != null) {
+            firstCatapult.drawFrontSide();
+        }
+
+        if (secondCatapult != null) {
+            secondCatapult.drawFrontSide();
         }
     }
+
+
 
     public Ground getGround() {
         return ground;

@@ -38,3 +38,11 @@ DONE:
 
 Alapfeladat (Σ 17%)
 Az alkalmazás háttere legyen égszínkék (2%).
+
+Lövedékek (Σ 15%)
+
+Hajítógép (Σ 15%)
+
+Pálya (Σ 40%)
+
+Pluszpontok / Extra(Σ 35%)

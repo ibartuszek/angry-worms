@@ -15,17 +15,21 @@ public class Visualization extends PApplet {
 
     public static final String BACKGROUND_COLOR = "#00baff";
     public static final String GROUND_COLOR = "#f4a460";
-    public static final String CATAPULT_BODY_COLOR = "#783e10";
+    public static final String CATAPULT_BODY_COLOR_FRONTSIDE = "#62320d";
+    public static final String CATAPULT_BODY_COLOR_BACKSIDE = "#4b270a";
     public static final String CATAPULT_RUBBER_COLOR = "#be2409";
 
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480;
     public static final int DETAIL = 100;
-    public static final double SURFACE_RATIO = 2.0d / 3.0d;
+    public static final double SURFACE_RATIO = 2.0 / 3.0;
 
     public static final int CATAPULT_WIDTH = 10;
-    public static final int CATAPULT_HEIGHT = 50;
+    public static final int CATAPULT_HEIGHT = 40;
     public static final int CATAPULT_HORIZONTAL_POSITION = 40;
+    public static final double CATAPULT_ANGLE = Math.PI / 8;
+    public static final int CATAPULT_RUBBER_SHIFT_VALUE = 0;
+    public static final int CATAPULT_FORK_SHIFT = 10;
 
     private GameModel model;
 
@@ -69,8 +73,6 @@ public class Visualization extends PApplet {
     }
 
     private void initModel() {
-        System.out.println(SURFACE_RATIO);
-        System.out.println((int)(HEIGHT * SURFACE_RATIO));
         model = new GameModel(this);
         Ground ground = new Ground(this);
         int surfacePosition = (int)(HEIGHT * SURFACE_RATIO) - CATAPULT_HEIGHT;
