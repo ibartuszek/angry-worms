@@ -30,8 +30,8 @@ public class Ground extends PShape {
         ground.groundWidth = Main.GROUND_WIDTH;
         ground.surfaceLevel = surfaceLevel;
         ground.groundImage = pApplet.loadImage(Main.GROUND_IMAGE);
-        ground.imageWidth = ground.groundWidth / ground.groundImage.width * ground.groundWidth;
-        ground.imageHeight = ground.groundWidth / ground.groundImage.width * ground.groundImage.height;
+        ground.imageWidth = (float)ground.groundWidth / ground.groundImage.width * ground.groundWidth;
+        ground.imageHeight = (float)ground.groundWidth / ground.groundImage.width * ground.groundImage.height;
         return ground;
     }
 

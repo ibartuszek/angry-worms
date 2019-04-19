@@ -12,19 +12,25 @@ import processing.core.PVector;
 @Data
 public class GameModel {
     private PApplet pApplet;
+
     private PVector baseCenter;
     private PVector center;
-    private float groundMovingFactor;
+    private boolean isLeft;
+    private boolean isRight;
+    private float lastTime = 0.0f;
+
+    private float groundSpeed;
     private Ground ground;
-    private float hillsMovingFactor;
+    private float hillsSpeed;
     private Hills hills;
 
     private Catapult firstCatapult;
     private Catapult secondCatapult;
 
     public void draw() {
+        updateCenterPosition(calculatePassedTime());
         PVector groundDisplacement = PVector.sub(baseCenter, center);
-        PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsMovingFactor / groundMovingFactor);
+        PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -51,19 +57,26 @@ public class GameModel {
         //        }
     }
 
-    public void moveToLeft() {
-        PVector newPosition = new PVector(center.x - groundMovingFactor, center.y);
-        center = validateNewPosition(newPosition) ? newPosition : center;
+    private float calculatePassedTime() {
+        float deltaTime = (pApplet.millis() - lastTime);
+        lastTime = pApplet.millis();
+        return deltaTime;
     }
 
-    public void moveToRight() {
-        PVector newPosition = new PVector(center.x + groundMovingFactor, center.y);
+    private void updateCenterPosition(float deltaTime) {
+        PVector newPosition = null;
+        if (isRight) {
+            newPosition = new PVector(center.x + groundSpeed * deltaTime, center.y);
+        } else if (isLeft) {
+            newPosition = new PVector(center.x - groundSpeed * deltaTime, center.y);
+        }
         center = validateNewPosition(newPosition) ? newPosition : center;
     }
 
     private boolean validateNewPosition(PVector newPosition) {
         boolean valid = false;
-        if (newPosition.x - Main.WIDTH / 2 >= 0
+        if (newPosition != null
+            && newPosition.x - Main.WIDTH / 2 >= 0
             && newPosition.x + Main.WIDTH / 2 <= Main.GROUND_WIDTH) {
             valid = true;
         }
@@ -75,8 +88,10 @@ public class GameModel {
         model.pApplet = pApplet;
         model.baseCenter = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
         model.center = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
-        model.groundMovingFactor = Main.GROUND_MOVING_FACTOR;
-        model.hillsMovingFactor = model.groundMovingFactor
+        model.isLeft = false;
+        model.isRight = false;
+        model.groundSpeed = Main.GROUND_MOVING_FACTOR;
+        model.hillsSpeed = model.groundSpeed
             * (Main.HILLS_WIDTH - Main.WIDTH) / (Main.GROUND_WIDTH - Main.WIDTH);
         return model;
     }

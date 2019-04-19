@@ -19,7 +19,6 @@ public class Visualization extends PApplet {
         this.fill(0, 0, 0);
         this.stroke(0, 0, 0);
         this.ellipse(50, 50, second(), second());
-        // Relativ elements
     }
 
     public void update() {
@@ -28,15 +27,22 @@ public class Visualization extends PApplet {
     }
 
     @Override
-    public void keyPressed(){
+    public void keyPressed() {
         if (keyCode == LEFT) {
-            model.moveToLeft();
-        } else if (keyCode == RIGHT){
-            model.moveToRight();
+            model.setLeft(true);
+        } else if (keyCode == RIGHT) {
+            model.setRight(true);
         }
     }
 
-    // Init + Setup
+    @Override
+    public void keyReleased() {
+        if (keyCode == LEFT) {
+            model.setLeft(false);
+        } else if (keyCode == RIGHT) {
+            model.setRight(false);
+        }
+    }
 
     @Override
     public void settings() {

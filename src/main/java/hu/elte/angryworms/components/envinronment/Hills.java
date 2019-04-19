@@ -28,8 +28,8 @@ public class Hills {
         hills.pApplet = pApplet;
         hills.hillsWidth = Main.HILLS_WIDTH;
         hills.hillsImage = pApplet.loadImage(Main.HILLS_IMAGE);
-        hills.imageWidth = hills.hillsWidth / hills.hillsImage.width * hills.hillsWidth;
-        hills.imageHeight = hills.hillsWidth / hills.hillsImage.width * hills.hillsImage.height;
+        hills.imageWidth = (float)hills.hillsWidth / hills.hillsImage.width * hills.hillsWidth;
+        hills.imageHeight = (float)hills.hillsWidth / hills.hillsImage.width * hills.hillsImage.height;
         hills.surfaceLevel = surfaceLevel - (int)hills.imageHeight;
         return hills;
     }
