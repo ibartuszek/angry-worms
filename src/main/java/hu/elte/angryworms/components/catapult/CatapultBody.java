@@ -3,89 +3,95 @@ package hu.elte.angryworms.components.catapult;
 
 import java.awt.Color;
 
-import hu.elte.angryworms.Visualization;
+import hu.elte.angryworms.Main;
+
+import lombok.Data;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class CatapultBody {
+@Data
+public class CatapultBody extends PShape{
 
 
-    private final PApplet pApplet;
-    private final PShape shape;
-    private final Color frontSideColor;
-    private final Color backSideColor;
-    private final PVector position;
-    private final PVector leftTopPosition;
-    private final PVector rightTopPosition;
-    private final PVector bottomPosition;
+    private PApplet pApplet;
+    private Color frontSideColor;
+    private Color backSideColor;
+    private int catapultWidth;
+    private int catapultHeight;
 
-    private final int width = Visualization.CATAPULT_WIDTH;
-    private final int height = Visualization.CATAPULT_HEIGHT;
+    private float defaultHorizontalPosition;
+    private PVector position;
+    private PVector leftTopPosition;
+    private PVector rightTopPosition;
+    private PVector bottomPosition;
 
-
-    public CatapultBody(PApplet pApplet, PVector position) {
-        this.pApplet = pApplet;
-        this.shape = pApplet.createShape();
-        this.frontSideColor = Color.decode(Visualization.CATAPULT_BODY_COLOR_FRONTSIDE);
-        this.backSideColor = Color.decode(Visualization.CATAPULT_BODY_COLOR_BACKSIDE);
-        this.position = position;
-        leftTopPosition = new PVector(position.x - (float)(height * Math.tan(Visualization.CATAPULT_ANGLE)), position.y - height);
-        rightTopPosition = new PVector(position.x + (float)(height * Math.tan(Visualization.CATAPULT_ANGLE)), position.y - height + Visualization.CATAPULT_FORK_SHIFT);
-        bottomPosition = new PVector(position.x, position.y + height);
+    private CatapultBody() {
+        super();
     }
 
-    public void drawBackSide() {
+    void drawBackSide() {
+        draw(leftTopPosition, backSideColor);
+    }
+
+    void drawFrontSide() {
+        draw(rightTopPosition, frontSideColor);
+    }
+
+    private void draw(PVector branchPosition, Color color) {
         pApplet.beginShape();
-
-        pApplet.fill(backSideColor.getRed(), backSideColor.getGreen(), backSideColor.getBlue());
-        pApplet.stroke(backSideColor.getRed(), backSideColor.getGreen(), backSideColor.getBlue());
-
-        pApplet.curveVertex(bottomPosition.x - width/2, bottomPosition.y);
-        pApplet.curveVertex(bottomPosition.x + width/2, bottomPosition.y);
-        pApplet.curveVertex(position.x + width/2, position.y);
-        pApplet.curveVertex(position.x, position.y - width);
-        pApplet.curveVertex(leftTopPosition.x + width/2, leftTopPosition.y);
-        pApplet.curveVertex(leftTopPosition.x - width/2, leftTopPosition.y);
-        pApplet.curveVertex(position.x - width/2, position.y);
-        pApplet.curveVertex(bottomPosition.x - width/2, bottomPosition.y);
-        pApplet.curveVertex(bottomPosition.x + width/2, bottomPosition.y);
-
+        pApplet.fill(color.getRed(), color.getGreen(), color.getBlue());
+        pApplet.stroke(color.getRed(), color.getGreen(), color.getBlue());
+        drawBottomStartPart();
+        drawBranchPart(branchPosition);
+        drawBottomEndPart();
         pApplet.endShape(pApplet.CLOSE);
     }
 
-    public void drawFrontSide() {
-        pApplet.beginShape();
-
-        pApplet.fill(frontSideColor.getRed(), frontSideColor.getGreen(), frontSideColor.getBlue());
-        pApplet.stroke(frontSideColor.getRed(), frontSideColor.getGreen(), frontSideColor.getBlue());
-
-        pApplet.curveVertex(bottomPosition.x - width/2, bottomPosition.y);
-        pApplet.curveVertex(bottomPosition.x + width/2, bottomPosition.y);
-        pApplet.curveVertex(position.x + width/2, position.y);
-        pApplet.curveVertex(rightTopPosition.x + width/2, rightTopPosition.y);
-        pApplet.curveVertex(rightTopPosition.x - width/2, rightTopPosition.y);
-        pApplet.curveVertex(position.x, position.y - width);
-        pApplet.curveVertex(position.x - width/2, position.y);
-        pApplet.curveVertex(bottomPosition.x - width/2, bottomPosition.y);
-        pApplet.curveVertex(bottomPosition.x + width/2, bottomPosition.y);
-
-        pApplet.endShape(pApplet.CLOSE);
+    private void drawBottomStartPart() {
+        drawBottomEndPart();
+        pApplet.curveVertex(position.x + (float)catapultWidth/2, bottomPosition.y);
+        pApplet.curveVertex(position.x + (float)catapultWidth/2, position.y);
     }
 
-    public PVector getPosition() {
-        return position;
+    private void drawBottomEndPart() {
+        pApplet.curveVertex(position.x - (float)catapultWidth/2, position.y);
+        pApplet.curveVertex(position.x - (float)catapultWidth/2, bottomPosition.y);
     }
 
-    public PVector getLeftTopPosition() {
-        return leftTopPosition;
+    private void drawBranchPart(PVector position) {
+        pApplet.curveVertex(position.x + (float)(catapultWidth / 2 * Math.cos(Main.CATAPULT_ANGLE)),
+            position.y - (float)(catapultWidth / 2 * Math.sin(Main.CATAPULT_ANGLE)));
+        pApplet.curveVertex(position.x - (float)(catapultWidth / 2 * Math.cos(Main.CATAPULT_ANGLE))
+            , position.y + (float)(catapultWidth / 2 * Math.sin(Main.CATAPULT_ANGLE)));
     }
 
-    public PVector getRightTopPosition() {
-        return rightTopPosition;
+    void setPositions(PVector position) {
+        this.position.x = defaultHorizontalPosition + position.x;
+        this.bottomPosition = new PVector(this.position.x,this.position.y + this.catapultHeight);
+        this.leftTopPosition =  new PVector(
+            this.position.x - (float)(this.catapultHeight * Math.tan(Main.CATAPULT_ANGLE)),
+            this.position.y - this.catapultHeight);
+        this.rightTopPosition =  new PVector(
+            this.position.x + (float)(this.catapultHeight * Math.tan(Main.CATAPULT_ANGLE)),
+            this.position.y - this.catapultHeight + Main.CATAPULT_FORK_SHIFT);
     }
 
-    public PVector getBottomPosition() {
-        return bottomPosition;
+    static CatapultBody createFirstCatapultBody(PApplet pApplet, PVector catapultPosition) {
+        CatapultBody catapultBody = createCatapultBody(pApplet);
+        catapultBody.defaultHorizontalPosition = catapultPosition.x;
+        catapultBody.position = catapultPosition;
+        catapultBody.setPositions(catapultPosition);
+        return catapultBody;
+    }
+
+    private static CatapultBody createCatapultBody(PApplet pApplet) {
+        CatapultBody catapultBody = new CatapultBody();
+        catapultBody.pApplet = pApplet;
+        catapultBody.catapultWidth = Main.CATAPULT_WIDTH;
+        catapultBody.catapultHeight = Main.CATAPULT_HEIGHT;
+        catapultBody.frontSideColor = Color.decode(Main.CATAPULT_BODY_COLOR_FRONTSIDE);
+        catapultBody.backSideColor = Color.decode(Main.CATAPULT_BODY_COLOR_BACKSIDE);
+        return catapultBody;
     }
 }

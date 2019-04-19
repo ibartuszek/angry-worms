@@ -27,9 +27,9 @@ public class Main {
     public static final String HILLS_IMAGE = "hills_2000x450.png";
 
     public static final int CATAPULT_WIDTH = 10;
-    public static final int CATAPULT_HEIGHT = 40;
+    public static final int CATAPULT_HEIGHT = 80;
     public static final int CATAPULT_HORIZONTAL_POSITION = 200;
-    public static final float CATAPULT_VERTICAL_SHIFT_FACTOR = 0.25f;
+    public static final float CATAPULT_VERTICAL_SHIFT_FACTOR = 0.9f;
 
 
     public static final double CATAPULT_ANGLE = Math.PI / 8;
@@ -50,12 +50,7 @@ public class Main {
         model.setGround(Ground.createGround(visualization, surfaceLevel));
         model.setHills(Hills.createHills(visualization, surfaceLevel));
         model.setFirstCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
-
-        // Catapult firstCatapult = new Catapult(this, new PVector(CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
-        // Catapult secondCatapult = new Catapult(this, new PVector(WIDTH - CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
-        // model.setFirstCatapult(firstCatapult);
-        // model.setSecondCatapult(secondCatapult);
-
+        model.setSecondCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
         visualization.setModel(model);
         return model;
     }

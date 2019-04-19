@@ -40,21 +40,21 @@ public class GameModel {
             hills.draw(hillsDisplacement);
         }
 
-        //        if (firstCatapult != null) {
-        //            firstCatapult.drawBackSide();
-        //        }
-        //
-        //        if (secondCatapult != null) {
-        //            secondCatapult.drawBackSide();
-        //        }
-        //
-        //        if (firstCatapult != null) {
-        //            firstCatapult.drawFrontSide();
-        //        }
-        //
-        //        if (secondCatapult != null) {
-        //            secondCatapult.drawFrontSide();
-        //        }
+        if (firstCatapult != null) {
+              firstCatapult.drawBackSide(groundDisplacement);
+        }
+
+        if (secondCatapult != null) {
+            secondCatapult.drawBackSide(groundDisplacement);
+        }
+
+        if (firstCatapult != null) {
+            firstCatapult.drawFrontSide();
+        }
+
+        if (secondCatapult != null) {
+            secondCatapult.drawFrontSide();
+        }
     }
 
     private float calculatePassedTime() {
