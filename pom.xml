@@ -12,8 +12,11 @@
         <java.version>11</java.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-        <main.class>hu.elte.angryworms.Visualization</main.class>
+        <main.class>hu.elte.angryworms.Main</main.class>
         <processing.core.version>3.3.7</processing.core.version>
+        <jogamp.gluegen.version>2.3.2</jogamp.gluegen.version>
+        <jogamp.jogl.version>2.3.2</jogamp.jogl.version>
+        <project.lombok.version>1.18.4</project.lombok.version>
     </properties>
 
     <build>
@@ -70,12 +73,30 @@
         </plugins>
     </build>
 
-    <!-- https://mvnrepository.com/artifact/org.processing/core -->
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.processing/core -->
         <dependency>
             <groupId>org.processing</groupId>
             <artifactId>core</artifactId>
             <version>${processing.core.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt-main -->
+        <dependency>
+          <groupId>org.jogamp.gluegen</groupId>
+          <artifactId>gluegen-rt-main</artifactId>
+          <version>${jogamp.gluegen.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jogamp.jogl/jogl -->
+        <dependency>
+            <groupId>org.jogamp.jogl</groupId>
+            <artifactId>jogl</artifactId>
+            <version>${jogamp.jogl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${project.lombok.version}</version>
         </dependency>
     </dependencies>
 

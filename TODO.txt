@@ -22,11 +22,6 @@ A célzás egérrel történjen: egy nyíl jelezze, hogy milyen irányban fog re
 A célzás elindításához a hajítógépre kell kattintani, majd egy bizonyos távolságra húzni a lövedéket. Az egérgombot felengedve a lövedék elrepül. A lövedék kezdősebességét a egér-húzás mértéke befolyásolja. (5%)
 
 Pálya (Σ 40%)
-Két 2D rétegből álljon: távoli dombok (5%), talaj (5%)
-A pálya mindig csak egy adott része látszódjon! (5%)
-A távoli dombok 2000 pixel széles textúra legyen, magassága a képernyőjével azonos. (5%)
-A talaj a képernyő alsó 1/3-ig tartson és legyen 2500 pixel széles. A csúzlik alapja a talajban legyen. (5%)
-A pályát a nyíl billentyűk segítségével lehessen követni, ekkor a rétegek pedig egymás előtt folyamatosan csúszva mozogjanak. (A “szélesebb” rétegnek gyorsabb mozgás kell, hogy azonos idő alatt jussunk el a széléig, mint a “keskenynek”.) (5%)
 Ha a talajt éri a lövedék, a talaj változzon meg! (10%)
 
 Pluszpontok / Extra(Σ 35%)
@@ -44,5 +39,11 @@ Lövedékek (Σ 15%)
 Hajítógép (Σ 15%)
 
 Pálya (Σ 40%)
+Két 2D rétegből álljon: távoli dombok (5%), talaj (5%)
+A pálya mindig csak egy adott része látszódjon! (5%)
+A távoli dombok 2000 pixel széles textúra legyen, magassága a képernyőjével azonos. (5%)
+A talaj a képernyő alsó 1/3-ig tartson és legyen 2500 pixel széles. A csúzlik alapja a talajban legyen. (5%)
+A pályát a nyíl billentyűk segítségével lehessen követni, ekkor a rétegek pedig egymás előtt folyamatosan csúszva mozogjanak. (A “szélesebb” rétegnek gyorsabb mozgás kell, hogy azonos idő alatt jussunk el a széléig, mint a “keskenynek”.) (5%)
+
 
 Pluszpontok / Extra(Σ 35%)
