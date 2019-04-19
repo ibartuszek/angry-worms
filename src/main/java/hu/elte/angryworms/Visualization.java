@@ -45,6 +45,20 @@ public class Visualization extends PApplet {
     }
 
     @Override
+    public void mousePressed() {
+        if (mouseButton == LEFT) {
+            model.setMousePressed(true);
+        }
+    }
+
+    @Override
+    public void mouseReleased() {
+        if (mouseButton == LEFT) {
+            model.setMousePressed(false);
+        }
+    }
+
+    @Override
     public void settings() {
         size(Main.WIDTH, Main.HEIGHT);
     }

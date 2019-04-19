@@ -11,7 +11,6 @@ import hu.elte.angryworms.model.GameModel;
 public class Main {
 
     public static final String BACKGROUND_COLOR = "#00baff";
-    public static final String GROUND_COLOR = "#f4a460";
     public static final String CATAPULT_BODY_COLOR_FRONTSIDE = "#62320d";
     public static final String CATAPULT_BODY_COLOR_BACKSIDE = "#4b270a";
     public static final String CATAPULT_RUBBER_COLOR = "#be2409";
@@ -28,13 +27,13 @@ public class Main {
 
     public static final int CATAPULT_WIDTH = 10;
     public static final int CATAPULT_HEIGHT = 80;
+    public static final float CATAPULT_RUBBER_WIDTH = 10.0f;
     public static final int CATAPULT_HORIZONTAL_POSITION = 200;
     public static final float CATAPULT_VERTICAL_SHIFT_FACTOR = 0.9f;
-
-
+    public static final float CATAPULT_FORK_SHIFT = 10.0f;
+    public static final float CATAPULT_RUBBER_SHIFT_VALUE = 0;
     public static final double CATAPULT_ANGLE = Math.PI / 8;
-    public static final int CATAPULT_RUBBER_SHIFT_VALUE = 0;
-    public static final int CATAPULT_FORK_SHIFT = 10;
+    public static final float CATAPULT_RUBBER_MAGNITUDE_LIMIT = 200.0f;
 
     public Main() {
         super();

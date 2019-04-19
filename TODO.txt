@@ -15,9 +15,7 @@ Röppályájuk parabolikus legyen! (5%)
 A lövedék repülés közben forogjon! (5%)
 
 Hajítógép (Σ 15%)
-Emlékeztessen egy csúzli formára és a pálya szélétől 200 px-re legyen! (5%)
 A lövedék a csúzliban helyezkedjen el, célzáskor pedig animáltan mozogjon együtt vele! (5%)
-A csúzli gumija legyen piros! (5%)
 A célzás egérrel történjen: egy nyíl jelezze, hogy milyen irányban fog repülni a lövedék! (5%)
 A célzás elindításához a hajítógépre kell kattintani, majd egy bizonyos távolságra húzni a lövedéket. Az egérgombot felengedve a lövedék elrepül. A lövedék kezdősebességét a egér-húzás mértéke befolyásolja. (5%)
 
@@ -37,6 +35,8 @@ Az alkalmazás háttere legyen égszínkék (2%).
 Lövedékek (Σ 15%)
 
 Hajítógép (Σ 15%)
+Emlékeztessen egy csúzli formára és a pálya szélétől 200 px-re legyen! (5%)
+A csúzli gumija legyen piros! (5%)
 
 Pálya (Σ 40%)
 Két 2D rétegből álljon: távoli dombok (5%), talaj (5%)

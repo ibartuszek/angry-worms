@@ -17,6 +17,7 @@ public class GameModel {
     private PVector center;
     private boolean isLeft;
     private boolean isRight;
+    private boolean isMousePressed;
     private float lastTime = 0.0f;
 
     private float groundSpeed;
@@ -31,6 +32,8 @@ public class GameModel {
         updateCenterPosition(calculatePassedTime());
         PVector groundDisplacement = PVector.sub(baseCenter, center);
         PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
+        boolean firstCatapultIsClicked = firstCatapultIsClicked();
+        boolean secondCatapultIsClicked = secondCatapultIsClicked();
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -41,19 +44,19 @@ public class GameModel {
         }
 
         if (firstCatapult != null) {
-              firstCatapult.drawBackSide(groundDisplacement);
+              firstCatapult.drawBackSide(groundDisplacement, firstCatapultIsClicked);
         }
 
         if (secondCatapult != null) {
-            secondCatapult.drawBackSide(groundDisplacement);
+            secondCatapult.drawBackSide(groundDisplacement, secondCatapultIsClicked);
         }
 
         if (firstCatapult != null) {
-            firstCatapult.drawFrontSide();
+            firstCatapult.drawFrontSide(firstCatapultIsClicked);
         }
 
         if (secondCatapult != null) {
-            secondCatapult.drawFrontSide();
+            secondCatapult.drawFrontSide(secondCatapultIsClicked);
         }
     }
 
@@ -83,6 +86,22 @@ public class GameModel {
         return valid;
     }
 
+    private boolean firstCatapultIsClicked() {
+        boolean result = false;
+        if (isMousePressed) {
+            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), firstCatapult);
+        }
+        return result;
+    }
+
+    private boolean secondCatapultIsClicked() {
+        boolean result = false;
+        if (isMousePressed) {
+            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), secondCatapult);
+        }
+        return result;
+    }
+
     public static GameModel createGameModel(PApplet pApplet) {
         GameModel model = new GameModel();
         model.pApplet = pApplet;
@@ -90,6 +109,7 @@ public class GameModel {
         model.center = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
         model.isLeft = false;
         model.isRight = false;
+        model.isMousePressed = false;
         model.groundSpeed = Main.GROUND_MOVING_FACTOR;
         model.hillsSpeed = model.groundSpeed
             * (Main.HILLS_WIDTH - Main.WIDTH) / (Main.GROUND_WIDTH - Main.WIDTH);
