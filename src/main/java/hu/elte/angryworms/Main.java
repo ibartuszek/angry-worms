@@ -31,9 +31,9 @@ public class Main {
     public static final double SURFACE_RATIO = 2.0 / 3.0;
     public static final float GROUND_MOVING_FACTOR = 1.0f;
 
-    public static final float GRAVITY_CONSTANT = 5.0f;
-    public static final float WORM_VELOCITY_FACTOR = 0.8f;
-    public static final float WORM_FLYING_SPEED_FACTOR = 150.0f;
+    public static final float GRAVITY_CONSTANT = 7.0f;
+    public static final float WORM_VELOCITY_FACTOR = 0.9f;
+    public static final float WORM_FLYING_SPEED_FACTOR = 7.0f;
 
     public static final String GROUND_IMAGE = "ground_2500x295.png";
     public static final String HILLS_IMAGE = "hills_2000x450.png";
