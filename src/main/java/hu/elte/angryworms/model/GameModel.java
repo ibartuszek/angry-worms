@@ -1,13 +1,9 @@
 package hu.elte.angryworms.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hu.elte.angryworms.Main;
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
-import hu.elte.angryworms.components.worm.Worm;
 
 import lombok.Data;
 import processing.core.PApplet;
@@ -29,17 +25,17 @@ public class GameModel {
     private float hillsSpeed;
     private Hills hills;
 
-    private Catapult firstCatapult;
-    private Catapult secondCatapult;
-    private List<Worm> firstPlayerWorms;
-    private List<Worm> secondPlayerWorms;
+    private Player firstPlayer;
+    private Player secondPlayer;
+
+    private Player currentPlayer;
 
     public void draw() {
         updateCenterPosition(calculatePassedTime());
-        PVector groundDisplacement = PVector.sub(baseCenter, center);
-        PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
-        boolean firstCatapultIsClicked = firstCatapultIsClicked();
-        boolean secondCatapultIsClicked = secondCatapultIsClicked();
+        final PVector groundDisplacement = PVector.sub(baseCenter, center);
+        final PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
+        final boolean firstCatapultIsClicked = firstCatapultIsClicked();
+        final boolean secondCatapultIsClicked = secondCatapultIsClicked();
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -49,42 +45,22 @@ public class GameModel {
             hills.draw(hillsDisplacement);
         }
 
-        if (firstCatapult != null) {
-              firstCatapult.drawBackSide(groundDisplacement, firstCatapultIsClicked);
+        if (firstPlayer != null) {
+            firstPlayer.draw(groundDisplacement, firstCatapultIsClicked);
         }
 
-        if (secondCatapult != null) {
-            secondCatapult.drawBackSide(groundDisplacement, secondCatapultIsClicked);
-        }
-
-        if (firstCatapult != null) {
-            firstCatapult.drawFrontSide(firstCatapultIsClicked);
-        }
-
-        if (secondCatapult != null) {
-            secondCatapult.drawFrontSide(secondCatapultIsClicked);
-        }
-
-        if (firstPlayerWorms != null) {
-            for (Worm worm : firstPlayerWorms) {
-                worm.draw();
-            }
-        }
-
-        if (secondPlayerWorms != null) {
-            for (Worm worm : secondPlayerWorms) {
-                worm.draw();
-            }
+        if (secondPlayer != null) {
+            secondPlayer.draw(groundDisplacement, secondCatapultIsClicked);
         }
     }
 
     private float calculatePassedTime() {
-        float deltaTime = (pApplet.millis() - lastTime);
+        final float deltaTime = (pApplet.millis() - lastTime);
         lastTime = pApplet.millis();
         return deltaTime;
     }
 
-    private void updateCenterPosition(float deltaTime) {
+    private void updateCenterPosition(final float deltaTime) {
         PVector newPosition = null;
         if (isRight) {
             newPosition = new PVector(center.x + groundSpeed * deltaTime, center.y);
@@ -94,7 +70,7 @@ public class GameModel {
         center = validateNewPosition(newPosition) ? newPosition : center;
     }
 
-    private boolean validateNewPosition(PVector newPosition) {
+    private boolean validateNewPosition(final PVector newPosition) {
         boolean valid = false;
         if (newPosition != null
             && newPosition.x - Main.WIDTH / 2 >= 0
@@ -106,22 +82,22 @@ public class GameModel {
 
     private boolean firstCatapultIsClicked() {
         boolean result = false;
-        if (isMousePressed) {
-            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), firstCatapult);
+        if (isMousePressed && currentPlayer.equals(firstPlayer)) {
+            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), firstPlayer.getCatapult());
         }
         return result;
     }
 
     private boolean secondCatapultIsClicked() {
         boolean result = false;
-        if (isMousePressed) {
-            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), secondCatapult);
+        if (isMousePressed && currentPlayer.equals(secondPlayer)) {
+            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), secondPlayer.getCatapult());
         }
         return result;
     }
 
-    public static GameModel createGameModel(PApplet pApplet) {
-        GameModel model = new GameModel();
+    public static GameModel createGameModel(final PApplet pApplet) {
+        final GameModel model = new GameModel();
         model.pApplet = pApplet;
         model.baseCenter = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
         model.center = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);

@@ -8,6 +8,7 @@ import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
 import hu.elte.angryworms.components.worm.Worm;
 import hu.elte.angryworms.model.GameModel;
+import hu.elte.angryworms.model.Player;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -33,53 +34,62 @@ public class Main {
     public static final String GROUND_IMAGE = "ground_2500x295.png";
     public static final String HILLS_IMAGE = "hills_2000x450.png";
 
-    public static final int CATAPULT_WIDTH = 10;
-    public static final int CATAPULT_HEIGHT = 80;
+    public static final float CATAPULT_WIDTH = 10;
+    public static final float CATAPULT_HEIGHT = 80;
     public static final float CATAPULT_RUBBER_WIDTH = 10.0f;
-    public static final int CATAPULT_HORIZONTAL_POSITION = 200;
+    public static final float CATAPULT_HORIZONTAL_POSITION = 200;
     public static final float CATAPULT_VERTICAL_SHIFT_FACTOR = 0.9f;
     public static final float CATAPULT_FORK_SHIFT = 10.0f;
     public static final double CATAPULT_ANGLE = Math.PI / 8;
     public static final float CATAPULT_RUBBER_MAGNITUDE_LIMIT = 200.0f;
 
-    public static final int WORM_START_POSITION_X = 30;
-    public static final int WORM_START_POSITION_y = 30;
-    public static final int WORM_HORIZONTAL_GAP = 30;
-    public static final int WORM_WIDTH = 20;
-    public static final int WORM_HEIGHT = 40;
+    public static final float WORM_START_POSITION_X = 30;
+    public static final float WORM_START_POSITION_y = 30;
+    public static final float WORM_HORIZONTAL_GAP = 30;
+    public static final float WORM_WIDTH = 20;
+    public static final float WORM_HEIGHT = 40;
 
     public Main() {
         super();
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new Visualization().main("hu.elte.angryworms.Visualization");
     }
 
-    static GameModel initModel(Visualization visualization) {
-        GameModel model = GameModel.createGameModel(visualization);
-        int surfaceLevel = (int)(HEIGHT * SURFACE_RATIO);
+    static GameModel initModel(final Visualization visualization) {
+        final GameModel model = GameModel.createGameModel(visualization);
+        final int surfaceLevel = (int) (Main.HEIGHT * Main.SURFACE_RATIO);
         model.setGround(Ground.createGround(visualization, surfaceLevel));
         model.setHills(Hills.createHills(visualization, surfaceLevel));
-        model.setFirstCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
-        model.setSecondCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
-        model.setFirstPlayerWorms(initWorms(visualization, WORM_HORIZONTAL_GAP, WORM_START_POSITION_X));
-        model.setSecondPlayerWorms(initWorms(visualization, WORM_HORIZONTAL_GAP * -1,
-            WIDTH - WORM_START_POSITION_X));
+
+        final Player firstPlayer = Player.createPlayer("First player", 3);
+        final Player secondPlayer = Player.createPlayer("Second player", 3);
+
+        firstPlayer.setCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
+        secondPlayer.setCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
+
+        Main.initWorms(visualization, Main.WORM_HORIZONTAL_GAP, Main.WORM_START_POSITION_X, firstPlayer);
+        Main.initWorms(visualization, Main.WORM_HORIZONTAL_GAP * -1,
+            Main.WIDTH - Main.WORM_START_POSITION_X, secondPlayer);
+
+        model.setFirstPlayer(firstPlayer);
+        model.setSecondPlayer(secondPlayer);
+        model.setCurrentPlayer(firstPlayer);
         visualization.setModel(model);
         return model;
     }
 
-    private static List<Worm> initWorms(PApplet pApplet, int horizontalGap, int horizontalStartPosition) {
-        List<Worm> wormList = new ArrayList<>();
-        int x = horizontalStartPosition;
-        int y = 40;
-        for (int i = 0; i < 3; i++) {
+    private static void initWorms(final PApplet pApplet, final float horizontalGap, final float horizontalStartPosition,
+        final Player player) {
+        final int shoots = player.getShoots();
+        final List<Worm> wormList = new ArrayList<>();
+        for (int i = 0; i < shoots; i++) {
             wormList.add(Worm.createWorm(pApplet,
-                new PVector(horizontalStartPosition + i * horizontalGap, WORM_START_POSITION_y)));
+                new PVector(horizontalStartPosition + i * horizontalGap, Main.WORM_START_POSITION_y)));
         }
-
-        return wormList;
+        player.setWormList(wormList);
+        player.setCurrentWorm(wormList.get(shoots - 1));
     }
 
 }

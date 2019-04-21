@@ -1,7 +1,6 @@
 package hu.elte.angryworms.components.catapult;
 
 import hu.elte.angryworms.Main;
-import hu.elte.angryworms.Visualization;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -10,62 +9,62 @@ public class Catapult {
     private CatapultBody body;
     private CatapultRubber rubber;
 
-    public void drawBackSide(PVector groundDisplacement, boolean clicked) {
+    public void drawBackSide(final PVector groundDisplacement, final boolean clicked) {
         body.setPositions(groundDisplacement);
         body.drawBackSide();
         rubber.setPositions(groundDisplacement);
         rubber.drawBackSide(clicked);
     }
 
-    public void drawFrontSide(boolean clicked) {
+    public void drawFrontSide(final boolean clicked) {
         body.drawFrontSide();
         rubber.drawFrontSide(clicked);
     }
 
-    public static boolean validateFirstCatapultPosition(PVector mousePosition, Catapult catapult) {
+    public static boolean validateFirstCatapultPosition(final PVector mousePosition, final Catapult catapult) {
         boolean result = false;
         if (catapult.body.getLeftTopPosition().y <= mousePosition.y) {
-            if (catapult.body.getPosition().x >= mousePosition.x &&
-            catapult.body.getPosition().copy().sub(mousePosition).mag() <= Main.CATAPULT_RUBBER_MAGNITUDE_LIMIT) {
+            if (catapult.body.getBasePosition().x >= mousePosition.x &&
+                catapult.body.getBasePosition().copy().sub(mousePosition).mag() <= Main.CATAPULT_RUBBER_MAGNITUDE_LIMIT) {
                 result = true;
             }
         }
         return result;
     }
 
-    public static boolean validateSecondCatapultPosition(PVector mousePosition, Catapult catapult) {
+    public static boolean validateSecondCatapultPosition(final PVector mousePosition, final Catapult catapult) {
         boolean result = false;
         if (catapult.body.getLeftTopPosition().y <= mousePosition.y) {
-            if (catapult.body.getPosition().x <= mousePosition.x &&
-                catapult.body.getPosition().copy().sub(mousePosition).mag() <= Main.CATAPULT_RUBBER_MAGNITUDE_LIMIT) {
+            if (catapult.body.getBasePosition().x <= mousePosition.x &&
+                catapult.body.getBasePosition().copy().sub(mousePosition).mag() <= Main.CATAPULT_RUBBER_MAGNITUDE_LIMIT) {
                 result = true;
             }
         }
         return result;
     }
 
-    public static Catapult createFirstCatapult(PApplet pApplet, int surfaceLevel) {
-        Catapult catapult = createCatapult();
+    public static Catapult createFirstCatapult(final PApplet pApplet, final float surfaceLevel) {
+        final Catapult catapult = Catapult.createCatapult();
         catapult.body = CatapultBody.createFirstCatapultBody(pApplet,
-            getCatapultPosition(Main.CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
+            Catapult.getCatapultPosition(Main.CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
         catapult.rubber = CatapultRubber.createFirstCatapultRubber(pApplet, catapult.body);
         return catapult;
     }
 
-    public static Catapult createSecondCatapult(PApplet pApplet, int surfaceLevel) {
-        Catapult catapult = createCatapult();
+    public static Catapult createSecondCatapult(final PApplet pApplet, final int surfaceLevel) {
+        final Catapult catapult = Catapult.createCatapult();
         catapult.body = CatapultBody.createSecondCatapultBody(pApplet,
-            getCatapultPosition(Main.GROUND_WIDTH - Main.CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
+            Catapult.getCatapultPosition(Main.GROUND_WIDTH - Main.CATAPULT_HORIZONTAL_POSITION, surfaceLevel));
         catapult.rubber = CatapultRubber.createFirstCatapultRubber(pApplet, catapult.body);
         return catapult;
     }
 
     private static Catapult createCatapult() {
-        Catapult catapult = new Catapult();
+        final Catapult catapult = new Catapult();
         return catapult;
     }
 
-    private static PVector getCatapultPosition(int horizontalPosition, int surfaceLevel) {
+    private static PVector getCatapultPosition(final float horizontalPosition, final float surfaceLevel) {
         return new PVector(horizontalPosition,
             surfaceLevel - Main.CATAPULT_HEIGHT * Main.CATAPULT_VERTICAL_SHIFT_FACTOR);
     }

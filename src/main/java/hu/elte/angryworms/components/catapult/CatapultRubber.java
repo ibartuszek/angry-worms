@@ -8,7 +8,7 @@ import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class CatapultRubber extends PShape {
+class CatapultRubber extends PShape {
     private PApplet pApplet;
     private CatapultBody catapultBody;
     private Color color;
@@ -21,7 +21,7 @@ public class CatapultRubber extends PShape {
     private PVector leftTopPosition;
     private PVector rightTopPosition;
 
-    private void drawRelaxed(PVector leftDirection, PVector rightDirection) {
+    private void drawRelaxed(final PVector leftDirection, final PVector rightDirection) {
         drawTwoVertexWithTwoVectors(leftDirection, leftTopPosition);
         pApplet.curveVertex(relaxedPosition.x, relaxedPosition.y - rubberWidth / 2);
         drawTwoVertexWithTwoVectors(rightDirection, rightTopPosition);
@@ -29,23 +29,23 @@ public class CatapultRubber extends PShape {
         drawTwoVertexWithTwoVectors(leftDirection, leftTopPosition);
     }
 
-    private void drawClicked(PVector sidePosition, PVector centerPosition, PVector direction) {
+    private void drawClicked(final PVector sidePosition, final PVector centerPosition, final PVector direction) {
         drawTwoVertexWithTwoVectors(direction, sidePosition);
         pApplet.curveVertex(centerPosition.x, centerPosition.y - rubberWidth / 2);
         pApplet.curveVertex(centerPosition.x, centerPosition.y + rubberWidth / 2);
         drawTwoVertexWithTwoVectors(direction, sidePosition);
     }
 
-    private void drawTwoVertexWithTwoVectors(PVector leftDirection, PVector leftTopPosition) {
+    private void drawTwoVertexWithTwoVectors(final PVector leftDirection, final PVector leftTopPosition) {
         pApplet.curveVertex(leftTopPosition.x - leftDirection.x, leftTopPosition.y + leftDirection.y);
         pApplet.curveVertex(leftTopPosition.x + leftDirection.x, leftTopPosition.y - leftDirection.y);
     }
 
-    private void draw(boolean clicked, boolean front) {
-        PVector leftDirection = PVector.fromAngle((float)(Main.CATAPULT_ANGLE + Math.PI / 2))
+    private void draw(final boolean clicked, final boolean front) {
+        final PVector leftDirection = PVector.fromAngle((float) (Main.CATAPULT_ANGLE + Math.PI / 2))
             .normalize()
             .mult(rubberWidth / 2);
-        PVector rightDirection = PVector.fromAngle((float)(- Main.CATAPULT_ANGLE - Math.PI / 2))
+        final PVector rightDirection = PVector.fromAngle((float) (-Main.CATAPULT_ANGLE - Math.PI / 2))
             .normalize()
             .mult(rubberWidth / 2);
         pApplet.beginShape();
@@ -65,35 +65,35 @@ public class CatapultRubber extends PShape {
         pApplet.endShape(pApplet.CLOSE);
     }
 
-    void drawBackSide(boolean clicked) {
+    void drawBackSide(final boolean clicked) {
         draw(clicked, false);
     }
 
-    void drawFrontSide(boolean clicked) {
+    void drawFrontSide(final boolean clicked) {
         draw(clicked, true);
     }
 
-    void setPositions(PVector position) {
+    void setPositions(final PVector position) {
         this.rubberPosition.x = defaultHorizontalPosition + position.x;
         initPositions();
     }
 
     private void initPositions() {
-        this.catapultPosition = this.catapultBody.getPosition();
-        this.leftTopPosition = new PVector(
-            this.catapultBody.getLeftTopPosition().x + (float) (rubberWidth * Math.sin(Main.CATAPULT_ANGLE)),
-            this.catapultBody.getLeftTopPosition().y + (float) (rubberWidth * Math.cos(Main.CATAPULT_ANGLE)));
-        this.rightTopPosition = new PVector(
-            this.catapultBody.getRightTopPosition().x - (float) (rubberWidth * Math.sin(Main.CATAPULT_ANGLE)),
-            this.catapultBody.getRightTopPosition().y + (float) (rubberWidth * Math.cos(Main.CATAPULT_ANGLE)));
-        this.relaxedPosition = new PVector(
-            this.catapultPosition.x + this.horizontalShift,
-            this.catapultPosition.y + (float) this.catapultBody.getCatapultHeight() / 2
+        catapultPosition = catapultBody.getBasePosition();
+        leftTopPosition = new PVector(
+            catapultBody.getLeftTopPosition().x + (float) (rubberWidth * Math.sin(Main.CATAPULT_ANGLE)),
+            catapultBody.getLeftTopPosition().y + (float) (rubberWidth * Math.cos(Main.CATAPULT_ANGLE)));
+        rightTopPosition = new PVector(
+            catapultBody.getRightTopPosition().x - (float) (rubberWidth * Math.sin(Main.CATAPULT_ANGLE)),
+            catapultBody.getRightTopPosition().y + (float) (rubberWidth * Math.cos(Main.CATAPULT_ANGLE)));
+        relaxedPosition = new PVector(
+            catapultPosition.x + this.horizontalShift,
+            catapultPosition.y + this.catapultBody.getCatapultHeight() / 2
         );
     }
 
-    static CatapultRubber createFirstCatapultRubber(PApplet pApplet, CatapultBody body) {
-        CatapultRubber catapultRubber = createCatapultRubber(pApplet, body);
+    static CatapultRubber createFirstCatapultRubber(final PApplet pApplet, final CatapultBody body) {
+        final CatapultRubber catapultRubber = CatapultRubber.createCatapultRubber(pApplet, body);
         catapultRubber.horizontalShift = catapultRubber.catapultBody.getCatapultWidth();
         catapultRubber.initPositions();
         catapultRubber.rubberPosition = catapultRubber.relaxedPosition.copy();
@@ -101,8 +101,8 @@ public class CatapultRubber extends PShape {
         return catapultRubber;
     }
 
-    private static CatapultRubber createCatapultRubber(PApplet pApplet, CatapultBody body) {
-        CatapultRubber catapultRubber = new CatapultRubber();
+    private static CatapultRubber createCatapultRubber(final PApplet pApplet, final CatapultBody body) {
+        final CatapultRubber catapultRubber = new CatapultRubber();
         catapultRubber.pApplet = pApplet;
         catapultRubber.catapultBody = body;
         catapultRubber.color = Color.decode(Main.CATAPULT_RUBBER_COLOR);
