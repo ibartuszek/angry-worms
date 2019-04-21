@@ -2,9 +2,11 @@ package hu.elte.angryworms.components.catapult;
 
 import hu.elte.angryworms.Main;
 
+import lombok.Data;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+@Data
 public class Catapult {
     private CatapultBody body;
     private CatapultRubber rubber;
@@ -21,7 +23,11 @@ public class Catapult {
         rubber.drawFrontSide(clicked);
     }
 
-    public static boolean validateFirstCatapultPosition(final PVector mousePosition, final Catapult catapult) {
+    public PVector getTopPosition() {
+        return body.getTopPosition();
+    }
+
+    public static boolean validateFirstCatapultAiming(final PVector mousePosition, final Catapult catapult) {
         boolean result = false;
         if (catapult.body.getLeftTopPosition().y <= mousePosition.y) {
             if (catapult.body.getBasePosition().x >= mousePosition.x &&
@@ -32,7 +38,7 @@ public class Catapult {
         return result;
     }
 
-    public static boolean validateSecondCatapultPosition(final PVector mousePosition, final Catapult catapult) {
+    public static boolean validateSecondCatapultAiming(final PVector mousePosition, final Catapult catapult) {
         boolean result = false;
         if (catapult.body.getLeftTopPosition().y <= mousePosition.y) {
             if (catapult.body.getBasePosition().x <= mousePosition.x &&

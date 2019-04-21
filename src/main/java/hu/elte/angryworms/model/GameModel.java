@@ -37,6 +37,7 @@ public class GameModel {
         final PVector groundDisplacement = PVector.sub(baseCenter, center);
         final PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
         fire();
+        // System.out.println(pApplet.mouseX + ":" + pApplet.mouseY);
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -81,24 +82,18 @@ public class GameModel {
         return valid;
     }
 
-    private boolean firstCatapultIsClicked() {
-        boolean result = false;
+    private void firstCatapultIsClicked() {
         if (isMousePressed && currentPlayer.equals(firstPlayer)) {
-            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY),
+            firstCatapultIsClicked = Catapult.validateFirstCatapultAiming(new PVector(pApplet.mouseX, pApplet.mouseY),
                 firstPlayer.getCatapult());
-            firstCatapultIsClicked = result;
         }
-        return result;
     }
 
-    private boolean secondCatapultIsClicked() {
-        boolean result = false;
+    private void secondCatapultIsClicked() {
         if (isMousePressed && currentPlayer.equals(secondPlayer)) {
-            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY),
+            secondCatapultIsClicked = Catapult.validateSecondCatapultAiming(new PVector(pApplet.mouseX, pApplet.mouseY),
                 secondPlayer.getCatapult());
-            secondCatapultIsClicked = true;
         }
-        return result;
     }
 
     private void fire() {
@@ -108,6 +103,7 @@ public class GameModel {
             currentPlayer.prepareForFire();
             if (!isMousePressed) {
                 firstCatapultIsClicked = false;
+                secondCatapultIsClicked = false;
                 currentPlayer.fire();
             }
         } else {

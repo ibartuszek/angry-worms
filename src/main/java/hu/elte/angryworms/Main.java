@@ -31,6 +31,10 @@ public class Main {
     public static final double SURFACE_RATIO = 2.0 / 3.0;
     public static final float GROUND_MOVING_FACTOR = 1.0f;
 
+    public static final float GRAVITY_CONSTANT = 5.0f;
+    public static final float WORM_VELOCITY_FACTOR = 0.8f;
+    public static final float WORM_FLYING_SPEED_FACTOR = 150.0f;
+
     public static final String GROUND_IMAGE = "ground_2500x295.png";
     public static final String HILLS_IMAGE = "hills_2000x450.png";
 
@@ -69,9 +73,14 @@ public class Main {
         firstPlayer.setCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
         secondPlayer.setCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
 
-        Main.initWorms(visualization, Main.WORM_HORIZONTAL_GAP, Main.WORM_START_POSITION_X, firstPlayer);
-        Main.initWorms(visualization, Main.WORM_HORIZONTAL_GAP * -1,
-            Main.WIDTH - Main.WORM_START_POSITION_X, secondPlayer);
+        Main.initWorms(visualization,
+            Main.WORM_HORIZONTAL_GAP,
+            Main.WORM_START_POSITION_X,
+            firstPlayer);
+        Main.initWorms(visualization,
+            Main.WORM_HORIZONTAL_GAP * -1,
+            Main.WIDTH - Main.WORM_START_POSITION_X,
+            secondPlayer);
 
         model.setFirstPlayer(firstPlayer);
         model.setSecondPlayer(secondPlayer);
@@ -80,12 +89,12 @@ public class Main {
         return model;
     }
 
-    private static void initWorms(final PApplet pApplet, final float horizontalGap, final float horizontalStartPosition,
-        final Player player) {
+    private static void initWorms(final PApplet pApplet, final float horizontalGap, final float horizontalStartPosition, final Player player) {
         final int shoots = player.getShoots();
         final List<Worm> wormList = new ArrayList<>();
         for (int i = 0; i < shoots; i++) {
-            wormList.add(Worm.createWorm(pApplet,
+            wormList.add(Worm.createWorm(
+                pApplet,
                 new PVector(horizontalStartPosition + i * horizontalGap, Main.WORM_START_POSITION_y)));
         }
         player.setWormList(wormList);

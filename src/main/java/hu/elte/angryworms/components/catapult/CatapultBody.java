@@ -78,6 +78,10 @@ class CatapultBody extends PShape {
         initPositions();
     }
 
+    PVector getTopPosition() {
+        return new PVector(basePosition.x, basePosition.y - catapultHeight);
+    }
+
     private void initPositions() {
         bottomPosition = new PVector(basePosition.x, basePosition.y + catapultHeight);
         leftTopPosition = new PVector(

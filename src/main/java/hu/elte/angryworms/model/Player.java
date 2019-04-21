@@ -32,7 +32,7 @@ public class Player {
         }
 
         if (currentWorm != null) {
-            currentWorm.draw();
+            currentWorm.draw(groundDisplacement);
         }
 
         if (catapult != null) {
@@ -41,10 +41,9 @@ public class Player {
 
         if (wormList != null) {
             for (final Worm worm : wormList) {
-                worm.draw();
+                worm.draw(groundDisplacement);
             }
         }
-
     }
 
     void prepareForFire() {
@@ -53,8 +52,9 @@ public class Player {
     }
 
     void fire() {
-        currentWorm.setFlying(true);
-        System.out.println("Fire!");
+        final PVector currentPosition = currentWorm.getPosition().copy();
+        final PVector difference = catapult.getTopPosition().copy().sub(currentPosition);
+        currentWorm.setFlyingParameters(currentPosition, difference.x, Math.atan(-difference.y / difference.x));
     }
 
     void cancelFire() {
