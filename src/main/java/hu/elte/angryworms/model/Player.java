@@ -1,6 +1,8 @@
 package hu.elte.angryworms.model;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.worm.Worm;
@@ -13,8 +15,9 @@ public class Player {
     private final String name;
     private int shoots;
     private Catapult catapult;
-    private List<Worm> wormList;
+    private Set<Worm> wormSet;
     private Worm currentWorm;
+    private Optional<Result> result;
 
     private Player(final String name) {
         this.name = name;
@@ -27,20 +30,21 @@ public class Player {
     }
 
     void draw(final PVector groundDisplacement, final boolean catapultIsClicked) {
+
         if (catapult != null) {
             catapult.drawBackSide(groundDisplacement, catapultIsClicked);
         }
 
         if (currentWorm != null) {
-            currentWorm.draw(groundDisplacement);
+            result = Optional.ofNullable(currentWorm.draw(groundDisplacement));
         }
 
         if (catapult != null) {
             catapult.drawFrontSide(catapultIsClicked);
         }
 
-        if (wormList != null) {
-            for (final Worm worm : wormList) {
+        if (wormSet != null) {
+            for (final Worm worm : wormSet) {
                 worm.draw(groundDisplacement);
             }
         }
@@ -48,18 +52,35 @@ public class Player {
 
     void prepareForFire() {
         currentWorm.setAiming(true);
-        wormList.remove(currentWorm);
+        if (wormSet.contains(currentWorm)) {
+            wormSet.remove(currentWorm);
+        }
     }
 
     void fire() {
         final PVector currentPosition = currentWorm.getPosition().copy();
         final PVector difference = catapult.getTopPosition().copy().sub(currentPosition);
-        currentWorm.setFlyingParameters(currentPosition, difference.x, Math.atan(-difference.y / difference.x));
+        currentWorm.setFlyingParameters(currentPosition, difference.x, Math.atan(Math.abs(difference.y) / Math.abs(difference.x)));
     }
 
-    void cancelFire() {
-        currentWorm.setAiming(false);
-        wormList.add(currentWorm);
-        currentWorm.setPosition(currentWorm.getOriginalPosition().copy());
+    public void setNextWorm() {
+        currentWorm = !wormSet.isEmpty() ? wormSet.stream().findFirst().get() : null;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

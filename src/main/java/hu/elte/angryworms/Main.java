@@ -1,7 +1,7 @@
 package hu.elte.angryworms;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import hu.elte.angryworms.components.arrow.Arrow;
 import hu.elte.angryworms.components.catapult.Catapult;
@@ -55,8 +55,12 @@ public class Main {
     public static final float WORM_HEIGHT = 40;
 
     public static final int ARROW_BASIC_HEIGHT = 40;
-    public static final int ARROW_BASIC_WIDTH = 40;
+    public static final int ARROW_BASIC_WIDTH = 10;
     public static final int ARROW_DISPLACEMENT = 40;
+
+    public static final String FIRST_PLAYER_NAME = "First player";
+    public static final String SECOND_PLAYER_NAME = "Second player";
+    public static final int PLAYER_SHOOTS = 3;
 
     public Main() {
         super();
@@ -75,8 +79,8 @@ public class Main {
         model.setArrow(Arrow.createArrow(visualization, Main.ARROW_BASIC_HEIGHT, Main.ARROW_BASIC_WIDTH,
             Main.ARROW_DISPLACEMENT));
 
-        final Player firstPlayer = Player.createPlayer("First player", 3);
-        final Player secondPlayer = Player.createPlayer("Second player", 3);
+        final Player firstPlayer = Player.createPlayer(Main.FIRST_PLAYER_NAME, Main.PLAYER_SHOOTS);
+        final Player secondPlayer = Player.createPlayer(Main.SECOND_PLAYER_NAME, Main.PLAYER_SHOOTS);
 
         firstPlayer.setCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
         secondPlayer.setCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
@@ -84,11 +88,15 @@ public class Main {
         Main.initWorms(visualization,
             Main.WORM_HORIZONTAL_GAP,
             Main.WORM_START_POSITION_X,
-            firstPlayer);
+            firstPlayer,
+            surfaceLevel,
+            true);
         Main.initWorms(visualization,
             Main.WORM_HORIZONTAL_GAP * -1,
             Main.WIDTH - Main.WORM_START_POSITION_X,
-            secondPlayer);
+            secondPlayer,
+            surfaceLevel,
+            false);
 
         model.setFirstPlayer(firstPlayer);
         model.setSecondPlayer(secondPlayer);
@@ -97,16 +105,18 @@ public class Main {
         return model;
     }
 
-    private static void initWorms(final PApplet pApplet, final float horizontalGap, final float horizontalStartPosition, final Player player) {
+    private static void initWorms(final PApplet pApplet, final float horizontalGap, final float horizontalStartPosition,
+        final Player player, final float surfaceLevel, final boolean isLeft) {
         final int shoots = player.getShoots();
-        final List<Worm> wormList = new ArrayList<>();
+        final Set<Worm> wormList = new HashSet<>();
         for (int i = 0; i < shoots; i++) {
             wormList.add(Worm.createWorm(
                 pApplet,
-                new PVector(horizontalStartPosition + i * horizontalGap, Main.WORM_START_POSITION_y)));
+                new PVector(horizontalStartPosition + i * horizontalGap, Main.WORM_START_POSITION_y),
+                surfaceLevel, isLeft));
         }
-        player.setWormList(wormList);
-        player.setCurrentWorm(wormList.get(shoots - 1));
+        player.setWormSet(wormList);
+        player.setNextWorm();
     }
 
 }

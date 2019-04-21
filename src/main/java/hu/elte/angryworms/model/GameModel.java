@@ -1,5 +1,7 @@
 package hu.elte.angryworms.model;
 
+import java.util.Optional;
+
 import hu.elte.angryworms.Main;
 import hu.elte.angryworms.components.arrow.Arrow;
 import hu.elte.angryworms.components.catapult.Catapult;
@@ -39,7 +41,6 @@ public class GameModel {
         final PVector groundDisplacement = PVector.sub(baseCenter, center);
         final PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
         fire();
-        // System.out.println(pApplet.mouseX + ":" + pApplet.mouseY);
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -59,6 +60,23 @@ public class GameModel {
 
         if (arrow != null && arrow.isEnabled()) {
             arrow.draw();
+        }
+
+        if (currentPlayer.getResult().isPresent()) {
+            currentPlayer.setCurrentWorm(null);
+            final Result result = currentPlayer.getResult().get();
+            currentPlayer.setResult(Optional.empty());
+
+            if (!currentPlayer.getWormSet().isEmpty()) {
+                currentPlayer.setNextWorm();
+            }
+
+            if (result.isHitOpponent()) {
+                System.out.println("WIN");
+            }
+
+            currentPlayer = currentPlayer == firstPlayer ? secondPlayer : firstPlayer;
+
         }
     }
 
@@ -114,8 +132,6 @@ public class GameModel {
                 arrow.setEnabled(false);
                 currentPlayer.fire();
             }
-        } else {
-            currentPlayer.cancelFire();
         }
     }
 
