@@ -27,16 +27,12 @@ public class Worm extends PShape {
 
     public void draw(final PVector groundDisplacement) {
         if (!aiming && !flying) {
-            // drawFlyingWorm(position);
             drawStandardWorm(position);
         } else if (aiming) {
             position.set(new PVector(pApplet.mouseX, pApplet.mouseY));
             drawStandardWorm(position);
         } else if (flying) {
-            // setFlyingPosition(groundDisplacement);
             drawFlyingWorm(setFlyingPosition(groundDisplacement));
-            // drawStandardWorm();
-            // System.out.println(position.x + " " + position.y);
         }
     }
 
@@ -97,7 +93,6 @@ public class Worm extends PShape {
         final float x = originalPosition.x + groundDisplacment.x + flyingVelocity * (float) Math.cos(flyingAngle) * time;
         final float y = originalPosition.y - flyingVelocity * (float) Math.sin(flyingAngle) * time +
             Main.GRAVITY_CONSTANT * time * time / 2;
-        // position.set(x, y);
         return new PVector(x, y);
     }
 

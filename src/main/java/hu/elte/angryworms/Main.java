@@ -3,6 +3,7 @@ package hu.elte.angryworms;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.elte.angryworms.components.arrow.Arrow;
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
@@ -53,6 +54,10 @@ public class Main {
     public static final float WORM_WIDTH = 20;
     public static final float WORM_HEIGHT = 40;
 
+    public static final int ARROW_BASIC_HEIGHT = 40;
+    public static final int ARROW_BASIC_WIDTH = 40;
+    public static final int ARROW_DISPLACEMENT = 40;
+
     public Main() {
         super();
     }
@@ -66,6 +71,9 @@ public class Main {
         final int surfaceLevel = (int) (Main.HEIGHT * Main.SURFACE_RATIO);
         model.setGround(Ground.createGround(visualization, surfaceLevel));
         model.setHills(Hills.createHills(visualization, surfaceLevel));
+
+        model.setArrow(Arrow.createArrow(visualization, Main.ARROW_BASIC_HEIGHT, Main.ARROW_BASIC_WIDTH,
+            Main.ARROW_DISPLACEMENT));
 
         final Player firstPlayer = Player.createPlayer("First player", 3);
         final Player secondPlayer = Player.createPlayer("Second player", 3);

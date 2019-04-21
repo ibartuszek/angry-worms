@@ -1,6 +1,7 @@
 package hu.elte.angryworms.model;
 
 import hu.elte.angryworms.Main;
+import hu.elte.angryworms.components.arrow.Arrow;
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
@@ -24,6 +25,7 @@ public class GameModel {
     private Ground ground;
     private float hillsSpeed;
     private Hills hills;
+    private Arrow arrow;
 
     private Player firstPlayer;
     private Player secondPlayer;
@@ -53,6 +55,10 @@ public class GameModel {
 
         if (secondPlayer != null) {
             secondPlayer.draw(groundDisplacement, secondCatapultIsClicked);
+        }
+
+        if (arrow != null && arrow.isEnabled()) {
+            arrow.draw();
         }
     }
 
@@ -101,9 +107,11 @@ public class GameModel {
         secondCatapultIsClicked();
         if (firstCatapultIsClicked || secondCatapultIsClicked) {
             currentPlayer.prepareForFire();
+            arrow.prepareForShooting(currentPlayer.getCatapult().getTopPosition());
             if (!isMousePressed) {
                 firstCatapultIsClicked = false;
                 secondCatapultIsClicked = false;
+                arrow.setEnabled(false);
                 currentPlayer.fire();
             }
         } else {
