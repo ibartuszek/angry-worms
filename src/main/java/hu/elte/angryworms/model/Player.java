@@ -29,25 +29,16 @@ public class Player {
         return player;
     }
 
-    void draw(final PVector groundDisplacement, final boolean catapultIsClicked) {
-
-        if (catapult != null) {
-            catapult.drawBackSide(groundDisplacement, catapultIsClicked);
-        }
+    void draw(final PVector groundDisplacement, final boolean catapultIsClicked,
+        final PVector opponentCatapultTopPosition) {
+        catapult.drawBackSide(groundDisplacement, catapultIsClicked);
 
         if (currentWorm != null) {
-            result = Optional.ofNullable(currentWorm.draw(groundDisplacement));
+            result = Optional.ofNullable(currentWorm.draw(groundDisplacement, opponentCatapultTopPosition));
         }
 
-        if (catapult != null) {
-            catapult.drawFrontSide(catapultIsClicked);
-        }
-
-        if (wormSet != null) {
-            for (final Worm worm : wormSet) {
-                worm.draw(groundDisplacement);
-            }
-        }
+        catapult.drawFrontSide(catapultIsClicked);
+        wormSet.stream().forEach(worm -> worm.draw(groundDisplacement));
     }
 
     void prepareForFire() {
@@ -65,6 +56,10 @@ public class Player {
 
     public void setNextWorm() {
         currentWorm = !wormSet.isEmpty() ? wormSet.stream().findFirst().get() : null;
+    }
+
+    public PVector getCatapultTopPosition() {
+        return catapult.getTopPosition();
     }
 
     @Override

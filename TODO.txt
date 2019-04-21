@@ -3,11 +3,6 @@
 TODO:
 
 Alapfeladat (Σ 17%)
-A játék két emberi játékossal játszható. (5%)
-A játékmenet legyen körökre osztott, ahol egy-egy lövés után az ellenfél következik. A cél egymás “Hajítógépének” eltalálása. (5%)
-Ha ez bekövetkezik, a lövedéket hajító játékos nyer, ezt pedig szövegesen közli a program, majd bezárja magát 5 másodperc múlva (5%).
-Minden játékosnak külön-külön 3 lövedéke van. Ha találat nélkül ér véget a játék, ezt írja ki a program! (3%)
-
 
 Lövedékek (Σ 15%)
 
@@ -25,6 +20,10 @@ DONE:
 
 Alapfeladat (Σ 17%)
 Az alkalmazás háttere legyen égszínkék (2%).
+A játék két emberi játékossal játszható. (5%)
+A játékmenet legyen körökre osztott, ahol egy-egy lövés után az ellenfél következik. A cél egymás “Hajítógépének” eltalálása. (5%)
+Ha ez bekövetkezik, a lövedéket hajító játékos nyer, ezt pedig szövegesen közli a program, majd bezárja magát 5 másodperc múlva (5%).
+Minden játékosnak külön-külön 3 lövedéke van. Ha találat nélkül ér véget a játék, ezt írja ki a program! (3%)
 
 Lövedékek (Σ 15%)
 Formájukban emlékeztessenek valamilyen színes “kukac” formára (5%).

@@ -31,6 +31,10 @@ public class Worm extends PShape {
     private float wormHeight;
 
     public Result draw(final PVector groundDisplacement) {
+        return draw(groundDisplacement, null);
+    }
+
+    public Result draw(final PVector groundDisplacement, final PVector opponentCatapultTopPosition) {
         if (!aiming && !flying) {
             drawStandardWorm(position);
         } else if (aiming) {
@@ -38,7 +42,7 @@ public class Worm extends PShape {
             drawStandardWorm(position);
         } else if (flying) {
             final PVector nextPosition = setFlyingPosition(groundDisplacement);
-            if (validate(nextPosition)) {
+            if (validate(nextPosition, opponentCatapultTopPosition)) {
                 drawFlyingWorm(nextPosition);
             }
         }
@@ -120,7 +124,7 @@ public class Worm extends PShape {
         aiming = false;
     }
 
-    private boolean validate(final PVector nextPosition) {
+    private boolean validate(final PVector nextPosition, final PVector opponentCatapultTopPosition) {
         boolean result = true;
         if (nextPosition.x < 0 || nextPosition.x > Main.GROUND_WIDTH) {
             result = false;
@@ -128,6 +132,12 @@ public class Worm extends PShape {
         } else if (nextPosition.y > surfaceLevel) {
             result = false;
             this.result = Result.createFaultShootResult();
+        }
+        if (Math.abs(nextPosition.x - opponentCatapultTopPosition.x) < Main.HORIZONTAL_HIT_DIVERGENCE_FACTOR &&
+            nextPosition.y < surfaceLevel &&
+            nextPosition.y > opponentCatapultTopPosition.y) {
+            result = false;
+            this.result = Result.createWinnerResult();
         }
         return result;
     }

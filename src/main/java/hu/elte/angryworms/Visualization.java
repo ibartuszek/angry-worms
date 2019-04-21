@@ -15,10 +15,6 @@ public class Visualization extends PApplet {
     @Override
     public void draw() {
         update();
-        // Absolute fixed elements:
-        this.fill(0, 0, 0);
-        this.stroke(0, 0, 0);
-        this.ellipse(50, 50, PApplet.second(), PApplet.second());
     }
 
     public void update() {

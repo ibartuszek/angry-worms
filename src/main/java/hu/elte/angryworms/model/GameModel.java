@@ -1,5 +1,6 @@
 package hu.elte.angryworms.model;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 import hu.elte.angryworms.Main;
@@ -32,52 +33,37 @@ public class GameModel {
     private Player firstPlayer;
     private Player secondPlayer;
     private Player currentPlayer;
+    private Player nextPlayer;
+    private Player winner;
 
     private boolean firstCatapultIsClicked = false;
     private boolean secondCatapultIsClicked = false;
+
+    private boolean end;
+    private int timer;
 
     public void draw() {
         updateCenterPosition(calculatePassedTime());
         final PVector groundDisplacement = PVector.sub(baseCenter, center);
         final PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
-        fire();
+        ground.draw(groundDisplacement);
+        hills.draw(hillsDisplacement);
+        writeOutPlayerNames();
 
-        if (ground != null) {
-            ground.draw(groundDisplacement);
-        }
-
-        if (hills != null) {
-            hills.draw(hillsDisplacement);
-        }
-
-        if (firstPlayer != null) {
-            firstPlayer.draw(groundDisplacement, firstCatapultIsClicked);
-        }
-
-        if (secondPlayer != null) {
-            secondPlayer.draw(groundDisplacement, secondCatapultIsClicked);
-        }
-
-        if (arrow != null && arrow.isEnabled()) {
-            arrow.draw();
-        }
-
-        if (currentPlayer.getResult().isPresent()) {
-            currentPlayer.setCurrentWorm(null);
-            final Result result = currentPlayer.getResult().get();
-            currentPlayer.setResult(Optional.empty());
-
-            if (!currentPlayer.getWormSet().isEmpty()) {
-                currentPlayer.setNextWorm();
+        if (!end) {
+            fire();
+            firstPlayer.draw(groundDisplacement, firstCatapultIsClicked, nextPlayer.getCatapultTopPosition());
+            secondPlayer.draw(groundDisplacement, secondCatapultIsClicked, nextPlayer.getCatapultTopPosition());
+            if (arrow != null && arrow.isEnabled()) {
+                arrow.draw();
             }
-
-            if (result.isHitOpponent()) {
-                System.out.println("WIN");
+            if (currentPlayer.getResult().isPresent()) {
+                finishRound();
             }
-
-            currentPlayer = currentPlayer == firstPlayer ? secondPlayer : firstPlayer;
-
+        } else {
+            finishGame();
         }
+
     }
 
     private float calculatePassedTime() {
@@ -120,18 +106,60 @@ public class GameModel {
         }
     }
 
+    private void writeOutPlayerNames() {
+        pApplet.textSize(32);
+        pApplet.fill(0);
+        pApplet.textAlign(PApplet.LEFT);
+        pApplet.text(firstPlayer.getName(), Main.PLAYER_NAME_IDENT, Main.PLAYER_NAME_VERTICAL_GAP);
+        pApplet.textAlign(PApplet.RIGHT);
+        pApplet.text(secondPlayer.getName(), Main.WIDTH - Main.PLAYER_NAME_IDENT, Main.PLAYER_NAME_VERTICAL_GAP);
+    }
+
     private void fire() {
         firstCatapultIsClicked();
         secondCatapultIsClicked();
         if (firstCatapultIsClicked || secondCatapultIsClicked) {
             currentPlayer.prepareForFire();
-            arrow.prepareForShooting(currentPlayer.getCatapult().getTopPosition());
+            arrow.prepareForShooting(currentPlayer.getCatapultTopPosition());
             if (!isMousePressed) {
                 firstCatapultIsClicked = false;
                 secondCatapultIsClicked = false;
                 arrow.setEnabled(false);
                 currentPlayer.fire();
             }
+        }
+    }
+
+    private void finishRound() {
+        currentPlayer.setCurrentWorm(null);
+        final Result result = currentPlayer.getResult().get();
+        currentPlayer.setResult(Optional.empty());
+        currentPlayer.setNextWorm();
+
+        if (result.isHitOpponent()) {
+            end = true;
+            timer = pApplet.millis();
+            winner = currentPlayer;
+        }
+
+        if (nextPlayer.getCurrentWorm() == null && currentPlayer.getCurrentWorm() == null) {
+            end = true;
+            timer = pApplet.millis();
+        }
+
+        nextPlayer = currentPlayer;
+        currentPlayer = currentPlayer == firstPlayer ? secondPlayer : firstPlayer;
+    }
+
+    private void finishGame() {
+        pApplet.textSize(64);
+        pApplet.fill(0);
+        pApplet.textAlign(PApplet.CENTER);
+        final String message = winner != null ?
+            MessageFormat.format(Main.WIN_MESSAGE, winner.getName()) : Main.DEAD_END_MESSAGE;
+        pApplet.text(message, Main.WIDTH / 2, Main.PLAYER_NAME_VERTICAL_GAP * 3);
+        if (pApplet.millis() - timer > 5000) {
+            System.exit(0);
         }
     }
 

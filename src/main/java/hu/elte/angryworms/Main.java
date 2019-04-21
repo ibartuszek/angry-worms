@@ -35,6 +35,7 @@ public class Main {
     public static final float GRAVITY_CONSTANT = 7.0f;
     public static final float WORM_VELOCITY_FACTOR = 0.9f;
     public static final float WORM_FLYING_SPEED_FACTOR = 7.0f;
+    public static final float HORIZONTAL_HIT_DIVERGENCE_FACTOR = 5.0f;
 
     public static final String GROUND_IMAGE = "ground_2500x295.png";
     public static final String HILLS_IMAGE = "hills_2000x450.png";
@@ -49,7 +50,7 @@ public class Main {
     public static final float CATAPULT_RUBBER_MAGNITUDE_LIMIT = 200.0f;
 
     public static final float WORM_START_POSITION_X = 30;
-    public static final float WORM_START_POSITION_y = 30;
+    public static final float WORM_START_POSITION_y = 100;
     public static final float WORM_HORIZONTAL_GAP = 30;
     public static final float WORM_WIDTH = 20;
     public static final float WORM_HEIGHT = 40;
@@ -60,6 +61,11 @@ public class Main {
 
     public static final String FIRST_PLAYER_NAME = "First player";
     public static final String SECOND_PLAYER_NAME = "Second player";
+    public static final float PLAYER_NAME_IDENT = 20;
+    public static final float PLAYER_NAME_VERTICAL_GAP = 50;
+    public static final String WIN_MESSAGE = "The winner is: {0}";
+    public static final String DEAD_END_MESSAGE = "It is a dead end...";
+
     public static final int PLAYER_SHOOTS = 3;
 
     public Main() {
@@ -101,6 +107,7 @@ public class Main {
         model.setFirstPlayer(firstPlayer);
         model.setSecondPlayer(secondPlayer);
         model.setCurrentPlayer(firstPlayer);
+        model.setNextPlayer(secondPlayer);
         visualization.setModel(model);
         return model;
     }
