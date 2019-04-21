@@ -4,15 +4,18 @@ import java.awt.Color;
 
 import hu.elte.angryworms.Main;
 
+import lombok.Data;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
+@Data
 public class Worm extends PShape {
 
     private PApplet pApplet;
     private PVector position;
     private PVector direction;
+    private PVector originalPosition;
     private Color color;
     private boolean aiming;
     private boolean flying;
@@ -61,6 +64,7 @@ public class Worm extends PShape {
     public static Worm createWorm(final PApplet pApplet, final PVector startPosition) {
         final Worm worm = new Worm();
         worm.pApplet = pApplet;
+        worm.originalPosition = startPosition;
         worm.position = startPosition;
         worm.color = Color.decode(Main.WORM_COLOR);
         worm.aiming = false;

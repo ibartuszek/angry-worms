@@ -31,6 +31,10 @@ public class Player {
             catapult.drawBackSide(groundDisplacement, catapultIsClicked);
         }
 
+        if (currentWorm != null) {
+            currentWorm.draw();
+        }
+
         if (catapult != null) {
             catapult.drawFrontSide(catapultIsClicked);
         }
@@ -40,5 +44,22 @@ public class Player {
                 worm.draw();
             }
         }
+
+    }
+
+    void prepareForFire() {
+        currentWorm.setAiming(true);
+        wormList.remove(currentWorm);
+    }
+
+    void fire() {
+        currentWorm.setFlying(true);
+        System.out.println("Fire!");
+    }
+
+    void cancelFire() {
+        currentWorm.setAiming(false);
+        wormList.add(currentWorm);
+        currentWorm.setPosition(currentWorm.getOriginalPosition().copy());
     }
 }

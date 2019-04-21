@@ -27,15 +27,16 @@ public class GameModel {
 
     private Player firstPlayer;
     private Player secondPlayer;
-
     private Player currentPlayer;
+
+    private boolean firstCatapultIsClicked = false;
+    private boolean secondCatapultIsClicked = false;
 
     public void draw() {
         updateCenterPosition(calculatePassedTime());
         final PVector groundDisplacement = PVector.sub(baseCenter, center);
         final PVector hillsDisplacement = PVector.mult(groundDisplacement, hillsSpeed / groundSpeed);
-        final boolean firstCatapultIsClicked = firstCatapultIsClicked();
-        final boolean secondCatapultIsClicked = secondCatapultIsClicked();
+        fire();
 
         if (ground != null) {
             ground.draw(groundDisplacement);
@@ -83,7 +84,9 @@ public class GameModel {
     private boolean firstCatapultIsClicked() {
         boolean result = false;
         if (isMousePressed && currentPlayer.equals(firstPlayer)) {
-            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), firstPlayer.getCatapult());
+            result = Catapult.validateFirstCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY),
+                firstPlayer.getCatapult());
+            firstCatapultIsClicked = result;
         }
         return result;
     }
@@ -91,16 +94,32 @@ public class GameModel {
     private boolean secondCatapultIsClicked() {
         boolean result = false;
         if (isMousePressed && currentPlayer.equals(secondPlayer)) {
-            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY), secondPlayer.getCatapult());
+            result = Catapult.validateSecondCatapultPosition(new PVector(pApplet.mouseX, pApplet.mouseY),
+                secondPlayer.getCatapult());
+            secondCatapultIsClicked = true;
         }
         return result;
+    }
+
+    private void fire() {
+        firstCatapultIsClicked();
+        secondCatapultIsClicked();
+        if (firstCatapultIsClicked || secondCatapultIsClicked) {
+            currentPlayer.prepareForFire();
+            if (!isMousePressed) {
+                firstCatapultIsClicked = false;
+                currentPlayer.fire();
+            }
+        } else {
+            currentPlayer.cancelFire();
+        }
     }
 
     public static GameModel createGameModel(final PApplet pApplet) {
         final GameModel model = new GameModel();
         model.pApplet = pApplet;
-        model.baseCenter = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
-        model.center = new PVector(Main.WIDTH / 2, Main.HEIGHT / 2);
+        model.baseCenter = new PVector(Main.WIDTH / 2.0f, Main.HEIGHT / 2.0f);
+        model.center = new PVector(Main.WIDTH / 2.0f, Main.HEIGHT / 2.0f);
         model.isLeft = false;
         model.isRight = false;
         model.isMousePressed = false;

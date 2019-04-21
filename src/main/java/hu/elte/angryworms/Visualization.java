@@ -18,7 +18,7 @@ public class Visualization extends PApplet {
         // Absolute fixed elements:
         this.fill(0, 0, 0);
         this.stroke(0, 0, 0);
-        this.ellipse(50, 50, second(), second());
+        this.ellipse(50, 50, PApplet.second(), PApplet.second());
     }
 
     public void update() {
@@ -28,32 +28,32 @@ public class Visualization extends PApplet {
 
     @Override
     public void keyPressed() {
-        if (keyCode == LEFT) {
+        if (keyCode == PApplet.LEFT) {
             model.setLeft(true);
-        } else if (keyCode == RIGHT) {
+        } else if (keyCode == PApplet.RIGHT) {
             model.setRight(true);
         }
     }
 
     @Override
     public void keyReleased() {
-        if (keyCode == LEFT) {
+        if (keyCode == PApplet.LEFT) {
             model.setLeft(false);
-        } else if (keyCode == RIGHT) {
+        } else if (keyCode == PApplet.RIGHT) {
             model.setRight(false);
         }
     }
 
     @Override
     public void mousePressed() {
-        if (mouseButton == LEFT) {
+        if (mouseButton == PApplet.LEFT) {
             model.setMousePressed(true);
         }
     }
 
     @Override
     public void mouseReleased() {
-        if (mouseButton == LEFT) {
+        if (mouseButton == PApplet.LEFT) {
             model.setMousePressed(false);
         }
     }
@@ -69,7 +69,7 @@ public class Visualization extends PApplet {
     }
 
     public void drawBackground() {
-        Color backgroundColor = Color.decode(Main.BACKGROUND_COLOR);
+        final Color backgroundColor = Color.decode(Main.BACKGROUND_COLOR);
         background(color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue()));
     }
 
