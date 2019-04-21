@@ -1,9 +1,13 @@
 package hu.elte.angryworms.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hu.elte.angryworms.Main;
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
+import hu.elte.angryworms.components.worm.Worm;
 
 import lombok.Data;
 import processing.core.PApplet;
@@ -27,6 +31,8 @@ public class GameModel {
 
     private Catapult firstCatapult;
     private Catapult secondCatapult;
+    private List<Worm> firstPlayerWorms;
+    private List<Worm> secondPlayerWorms;
 
     public void draw() {
         updateCenterPosition(calculatePassedTime());
@@ -57,6 +63,18 @@ public class GameModel {
 
         if (secondCatapult != null) {
             secondCatapult.drawFrontSide(secondCatapultIsClicked);
+        }
+
+        if (firstPlayerWorms != null) {
+            for (Worm worm : firstPlayerWorms) {
+                worm.draw();
+            }
+        }
+
+        if (secondPlayerWorms != null) {
+            for (Worm worm : secondPlayerWorms) {
+                worm.draw();
+            }
         }
     }
 

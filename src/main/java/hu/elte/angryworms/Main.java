@@ -1,9 +1,16 @@
 package hu.elte.angryworms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hu.elte.angryworms.components.catapult.Catapult;
 import hu.elte.angryworms.components.envinronment.Ground;
 import hu.elte.angryworms.components.envinronment.Hills;
+import hu.elte.angryworms.components.worm.Worm;
 import hu.elte.angryworms.model.GameModel;
+
+import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * The purpose of this type is to
@@ -14,6 +21,7 @@ public class Main {
     public static final String CATAPULT_BODY_COLOR_FRONTSIDE = "#62320d";
     public static final String CATAPULT_BODY_COLOR_BACKSIDE = "#4b270a";
     public static final String CATAPULT_RUBBER_COLOR = "#be2409";
+    public static final String WORM_COLOR = "#ffb6c1";
 
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
@@ -31,9 +39,14 @@ public class Main {
     public static final int CATAPULT_HORIZONTAL_POSITION = 200;
     public static final float CATAPULT_VERTICAL_SHIFT_FACTOR = 0.9f;
     public static final float CATAPULT_FORK_SHIFT = 10.0f;
-    public static final float CATAPULT_RUBBER_SHIFT_VALUE = 0;
     public static final double CATAPULT_ANGLE = Math.PI / 8;
     public static final float CATAPULT_RUBBER_MAGNITUDE_LIMIT = 200.0f;
+
+    public static final int WORM_START_POSITION_X = 30;
+    public static final int WORM_START_POSITION_y = 30;
+    public static final int WORM_HORIZONTAL_GAP = 30;
+    public static final int WORM_WIDTH = 20;
+    public static final int WORM_HEIGHT = 40;
 
     public Main() {
         super();
@@ -43,15 +56,30 @@ public class Main {
         new Visualization().main("hu.elte.angryworms.Visualization");
     }
 
-    protected static GameModel initModel(Visualization visualization) {
+    static GameModel initModel(Visualization visualization) {
         GameModel model = GameModel.createGameModel(visualization);
         int surfaceLevel = (int)(HEIGHT * SURFACE_RATIO);
         model.setGround(Ground.createGround(visualization, surfaceLevel));
         model.setHills(Hills.createHills(visualization, surfaceLevel));
         model.setFirstCatapult(Catapult.createFirstCatapult(visualization, surfaceLevel));
         model.setSecondCatapult(Catapult.createSecondCatapult(visualization, surfaceLevel));
+        model.setFirstPlayerWorms(initWorms(visualization, WORM_HORIZONTAL_GAP, WORM_START_POSITION_X));
+        model.setSecondPlayerWorms(initWorms(visualization, WORM_HORIZONTAL_GAP * -1,
+            WIDTH - WORM_START_POSITION_X));
         visualization.setModel(model);
         return model;
+    }
+
+    private static List<Worm> initWorms(PApplet pApplet, int horizontalGap, int horizontalStartPosition) {
+        List<Worm> wormList = new ArrayList<>();
+        int x = horizontalStartPosition;
+        int y = 40;
+        for (int i = 0; i < 3; i++) {
+            wormList.add(Worm.createWorm(pApplet,
+                new PVector(horizontalStartPosition + i * horizontalGap, WORM_START_POSITION_y)));
+        }
+
+        return wormList;
     }
 
 }
