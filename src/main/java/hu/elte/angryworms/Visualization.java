@@ -56,7 +56,7 @@ public class Visualization extends PApplet {
 
     @Override
     public void settings() {
-        size(Main.WIDTH, Main.HEIGHT);
+        size(Main.WIDTH, Main.HEIGHT, PApplet.P2D);
     }
 
     @Override

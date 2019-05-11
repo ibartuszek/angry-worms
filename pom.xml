@@ -89,7 +89,7 @@
         <!-- https://mvnrepository.com/artifact/org.jogamp.jogl/jogl -->
         <dependency>
             <groupId>org.jogamp.jogl</groupId>
-            <artifactId>jogl</artifactId>
+            <artifactId>jogl-all-main</artifactId>
             <version>${jogamp.jogl.version}</version>
         </dependency>
 
